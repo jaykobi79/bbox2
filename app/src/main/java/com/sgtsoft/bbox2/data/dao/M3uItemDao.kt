@@ -26,8 +26,19 @@ interface M3uItemDao {
     suspend fun insertAll(m3uItems: List<M3uItem>)
 
     // Add the getChannelsByGroupTitle function here
-    @Query("SELECT * FROM m3u_items WHERE groupTitle = :groupTitle")
+    @Query("SELECT * FROM m3u_items WHERE group_title = :groupTitle")
     suspend fun getChannelsByGroupTitle(groupTitle: String): List<M3uItem>
+
+    @Query("SELECT DISTINCT group_title FROM m3u_items ORDER BY group_title ASC")
+    fun getDistinctGroupTitles(): LiveData<List<String>>
+
+    @Query("SELECT DISTINCT group_title FROM m3u_items")
+    suspend fun getGroupTitles(): List<String>
+
+    @Query("SELECT tvg_id FROM m3u_items WHERE group_title = :groupTitle")
+    suspend fun getTvgIdsByGroupTitle(groupTitle: String): List<String>
+
+
 }
 
 

@@ -28,4 +28,14 @@ class M3uItemRepository(private val m3uItemDao: M3uItemDao) {
     suspend fun getChannelsByGroupTitle(groupTitle: String): List<M3uItem> {
         return m3uItemDao.getChannelsByGroupTitle(groupTitle)
     }
+
+    suspend fun getGroupTitles(): List<String> {
+        return m3uItemDao.getGroupTitles()
+    }
+
+    suspend fun getTvgIdsByGroupTitle(groupTitle: String): List<String> {
+        return m3uItemDao.getTvgIdsByGroupTitle(groupTitle)
+    }
+
+
 }

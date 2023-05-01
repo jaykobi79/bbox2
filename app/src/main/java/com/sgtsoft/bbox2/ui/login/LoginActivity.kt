@@ -1,11 +1,13 @@
 package com.sgtsoft.bbox2.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.sgtsoft.bbox2.MainActivity
 import com.sgtsoft.bbox2.databinding.ActivityLoginBinding
 import com.sgtsoft.bbox2.data.database.M3uItemDatabase
 import com.sgtsoft.bbox2.data.repository.M3uItemRepository
@@ -24,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
         // Setup ViewModel
         val database = M3uItemDatabase.getDatabase(applicationContext)
         val repository = M3uItemRepository(database.m3uItemDao())
+
         val viewModelFactory = LoginViewModelFactory(repository)
         loginViewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 
@@ -44,14 +47,19 @@ class LoginActivity : AppCompatActivity() {
                         val m3uItems = loginViewModel.parseM3uFile(m3uContent)
 
                         // Add these log statements
-                        Log.d("LoginActivity", "M3U Items count: ${m3uItems.size}")
-                        m3uItems.forEach { Log.d("LoginActivity", "Group title: ${it.groupTitle}") }
+                        /*Log.d("LoginActivity", "M3U Items count: ${m3uItems.size}")
+                        m3uItems.forEach { Log.d("LoginActivity", "Group title: ${it.groupTitle}") }*/
 
                         loginViewModel.clearM3uItemsDatabase() // Clear the database before saving new items
                         loginViewModel.saveM3uItemsToDatabase(m3uItems)
 
                         val uniqueGroupTitles = m3uItems.map { it.groupTitle }.distinct().size
                         Toast.makeText(applicationContext, "Saved $uniqueGroupTitles unique group-titles to database", Toast.LENGTH_SHORT).show()
+
+                        // Launch the MainActivity after login is successful
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        finish() // This line closes the LoginActivity
                     }
                 } else {
                     Toast.makeText(applicationContext, "Login failed", Toast.LENGTH_SHORT).show()
@@ -61,6 +69,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 }
+
 
 
 

@@ -40,6 +40,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        dataBinding true
     }
 }
 
@@ -66,6 +67,10 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
+    implementation 'androidx.databinding:databinding-runtime:4.1.0'
+    annotationProcessor 'androidx.databinding:databinding-compiler:4.1.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
 
 
 }
